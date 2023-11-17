@@ -4,8 +4,8 @@ from typing import Dict, List
 
 from app import db
 from app.udaconnect.models import Connection, Location, Person
-from app.udaconnect.schemas import ConnectionSchema, LocationSchema, PersonSchema
-from geoalchemy2.functions import ST_AsText, ST_Point
+from app.udaconnect.schemas import LocationSchema
+from geoalchemy2.functions import ST_Point
 from sqlalchemy.sql import text
 
 logging.basicConfig(level=logging.WARNING)
@@ -15,7 +15,7 @@ logger = logging.getLogger("udaconnect-api")
 class ConnectionService:
     @staticmethod
     def find_contacts(person_id: int, start_date: datetime, end_date: datetime, meters=5
-    ) -> List[Connection]:
+                      ) -> List[Connection]:
         """
         Finds all Person who have been within a given distance of a given Person within a date range.
 
@@ -59,11 +59,11 @@ class ConnectionService:
         result: List[Connection] = []
         for line in tuple(data):
             for (
-                exposed_person_id,
-                location_id,
-                exposed_lat,
-                exposed_long,
-                exposed_time,
+                    exposed_person_id,
+                    location_id,
+                    exposed_lat,
+                    exposed_long,
+                    exposed_time,
             ) in db.engine.execute(query, **line):
                 location = Location(
                     id=location_id,

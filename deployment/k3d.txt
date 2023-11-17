@@ -1,0 +1,3 @@
+k3d cluster create my-cluster --servers 1 --agents 0 --port 8080:80@loadbalancer --port 6443:6443@loadbalancer
+
+k3d kubeconfig merge my-cluster --kubeconfig-switch-context
